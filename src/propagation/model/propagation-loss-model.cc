@@ -24,6 +24,7 @@
 #include "propagation-loss-model.h"
 #include "ns3/log.h"
 #include "ns3/mobility-model.h"
+#include "ns3/custom-antenna-model.h"
 #include "ns3/boolean.h"
 #include "ns3/double.h"
 #include "ns3/string.h"
@@ -926,6 +927,57 @@ RangePropagationLossModel::DoCalcRxPower (double txPowerDbm,
 
 int64_t
 RangePropagationLossModel::DoAssignStreams (int64_t stream)
+{
+  return 0;
+}
+
+// ------------------------------------------------------------------------- //
+
+
+NS_OBJECT_ENSURE_REGISTERED (AntennaPropagationLossModel);
+
+TypeId
+AntennaPropagationLossModel::GetTypeId (void)
+{
+  static TypeId tid = TypeId ("ns3::AntennaPropagationLossModel")
+    .SetParent<PropagationLossModel> ()
+    .SetGroupName ("Propagation")
+    .AddConstructor<AntennaPropagationLossModel> ();
+  return tid;
+}
+
+AntennaPropagationLossModel::AntennaPropagationLossModel ()
+{
+}
+
+double
+AntennaPropagationLossModel::GetGain (Ptr<MobilityModel> a,
+                                      Ptr<MobilityModel> b) const
+{
+  Vector difference = b->GetPosition () - a->GetPosition ();
+  Quaternion orientation = a->GetOrientation();
+  orientation.inverse();
+  /* Position of b in the rotated frame of a */
+  Vector dpos = orientation.rotate(difference);
+  double rho = dpos.GetLength(); // useless
+  double theta = std::acos(dpos.z / rho);
+  double phi = std::atan2(dpos.y, dpos.x);
+
+  return a->GetObject<CustomAntennaModel>()->GetGainDb(theta, phi);
+}
+
+double
+AntennaPropagationLossModel::DoCalcRxPower (double txPowerDbm,
+                                            Ptr<MobilityModel> a,
+                                            Ptr<MobilityModel> b) const
+{
+  double gainA = GetGain(a, b);
+  double gainB = GetGain(b, a);
+  return txPowerDbm + gainA + gainB;
+}
+
+int64_t
+AntennaPropagationLossModel::DoAssignStreams (int64_t stream)
 {
   return 0;
 }

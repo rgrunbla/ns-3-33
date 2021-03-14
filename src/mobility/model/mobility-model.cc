@@ -44,6 +44,12 @@ MobilityModel::GetTypeId (void)
                    VectorValue (Vector (0.0, 0.0, 0.0)), // ignored initial value.
                    MakeVectorAccessor (&MobilityModel::GetVelocity),
                    MakeVectorChecker ())
+    .AddAttribute ("Orientation", "The current orientation of the mobility model.",
+                TypeId::ATTR_GET,
+                QuaternionValue (Quaternion (0.0, 0.0, 0.0, 1.0)),
+                MakeQuaternionAccessor (&MobilityModel::SetOrientation,
+                                        &MobilityModel::GetOrientation),
+                MakeQuaternionChecker ())
     .AddTraceSource ("CourseChange", 
                      "The value of the position and/or velocity vector changed",
                      MakeTraceSourceAccessor (&MobilityModel::m_courseChangeTrace),
@@ -71,10 +77,28 @@ MobilityModel::GetVelocity (void) const
   return DoGetVelocity ();
 }
 
+Vector
+MobilityModel::GetAngularVelocity (void) const
+{
+  return DoGetAngularVelocity ();
+}
+
+Quaternion
+MobilityModel::GetOrientation (void) const
+{
+  return DoGetOrientation ();
+}
+
 void 
 MobilityModel::SetPosition (const Vector &position)
 {
   DoSetPosition (position);
+}
+
+void
+MobilityModel::SetOrientation (const Quaternion &quaternion)
+{
+  DoSetOrientation (quaternion);
 }
 
 double 

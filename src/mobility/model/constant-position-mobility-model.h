@@ -46,9 +46,13 @@ public:
 private:
   virtual Vector DoGetPosition (void) const;
   virtual void DoSetPosition (const Vector &position);
+  virtual Quaternion DoGetOrientation (void) const;
+  virtual void DoSetOrientation (const Quaternion &quaternion);
   virtual Vector DoGetVelocity (void) const;
+  virtual Vector DoGetAngularVelocity (void) const;
 
   Vector m_position; //!< the constant position
+  Quaternion m_orientation; //<! the constant orientation
 };
 
 } // namespace ns3

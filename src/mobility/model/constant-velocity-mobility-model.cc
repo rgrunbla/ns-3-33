@@ -19,6 +19,7 @@
  */
 #include "constant-velocity-mobility-model.h"
 #include "ns3/simulator.h"
+#include "ns3/log.h"
 
 namespace ns3 {
 
@@ -50,6 +51,15 @@ ConstantVelocityMobilityModel::SetVelocity (const Vector &speed)
   NotifyCourseChange ();
 }
 
+void
+ConstantVelocityMobilityModel::SetAngularVelocity (const Vector &angularVel)
+{
+  m_helper.Update ();
+  m_helper.SetAngularVelocity (angularVel);
+  m_helper.Unpause ();
+  NotifyCourseChange ();
+}
+
 
 Vector
 ConstantVelocityMobilityModel::DoGetPosition (void) const
@@ -67,6 +77,25 @@ Vector
 ConstantVelocityMobilityModel::DoGetVelocity (void) const
 {
   return m_helper.GetVelocity ();
+}
+
+Vector
+ConstantVelocityMobilityModel::DoGetAngularVelocity (void) const
+{
+  return m_helper.GetAngularVelocity ();
+}
+
+Quaternion
+ConstantVelocityMobilityModel::DoGetOrientation (void) const
+{
+  m_helper.Update ();
+  return m_helper.GetCurrentOrientation ();
+}
+void
+ConstantVelocityMobilityModel::DoSetOrientation (const Quaternion &orientation)
+{
+  m_helper.SetOrientation (orientation);
+  NotifyCourseChange ();
 }
 
 } // namespace ns3

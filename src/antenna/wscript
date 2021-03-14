@@ -7,6 +7,7 @@ def build(bld):
     module.source = [
         'model/angles.cc',
         'model/antenna-model.cc',
+        'model/custom-antenna-model.cc',
         'model/isotropic-antenna-model.cc',
         'model/cosine-antenna-model.cc',
         'model/parabolic-antenna-model.cc',
@@ -33,6 +34,7 @@ def build(bld):
     headers.source = [
         'model/angles.h',
         'model/antenna-model.h',
+        'model/custom-antenna-model.h',
         'model/isotropic-antenna-model.h',
         'model/cosine-antenna-model.h',
         'model/parabolic-antenna-model.h',

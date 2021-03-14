@@ -54,11 +54,22 @@ public:
    * Unit is meters/s
    */
   void SetVelocity (const Vector &speed);
+
+  /**
+   * \param angularVel the new angular velocity to set.
+   *
+   * Unit is quaternion/s
+   */
+  void SetAngularVelocity (const Vector &angularVel);
 private:
   virtual Vector DoGetPosition (void) const;
   virtual void DoSetPosition (const Vector &position);
+  virtual Quaternion DoGetOrientation (void) const;
+  virtual void DoSetOrientation (const Quaternion &quaternion);
   virtual Vector DoGetVelocity (void) const;
+  virtual Vector DoGetAngularVelocity (void) const;
   ConstantVelocityHelper m_helper;  //!< helper object for this model
+  Quaternion m_orientation; //!< the orientation
 };
 
 } // namespace ns3

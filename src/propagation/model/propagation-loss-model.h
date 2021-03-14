@@ -28,6 +28,7 @@
 #include "ns3/object.h"
 #include "ns3/random-variable-stream.h"
 #include <map>
+#include <functional>
 
 namespace ns3 {
 
@@ -820,7 +821,7 @@ private:
  *
  * \brief The propagation loss depends only on the distance (range) between transmitter and receiver.
  *
- * The single MaxRange attribute (units of meters) determines path loss.
+ * The single MaxRange attribute (units of meters) determines path lToss.
  * Receivers at or within MaxRange meters receive the transmission at the
  * transmit power level. Receivers beyond MaxRange receive at power
  * -1000 dBm (effectively zero).
@@ -854,6 +855,48 @@ private:
   virtual int64_t DoAssignStreams (int64_t stream);
 private:
   double m_range; //!< Maximum Transmission Range (meters)
+};
+
+/**
+ * \ingroup propagation
+ *
+ * \brief The propagation loss depends only on the distance (range) between transmitter and receiver.
+ *
+ * The single MaxRange attribute (units of meters) determines path loss.
+ * Receivers at or within MaxRange meters receive the transmission at the
+ * transmit power level. Receivers beyond MaxRange receive at power
+ * -1000 dBm (effectively zero).
+*/
+
+class AntennaPropagationLossModel : public PropagationLossModel
+{
+public:
+  /**
+   * \brief Get the type ID.
+   * \return the object TypeId
+   */
+  static TypeId GetTypeId (void);
+  AntennaPropagationLossModel ();
+private:
+  /**
+   * \brief Copy constructor
+   *
+   * Defined and unimplemented to avoid misuse
+   */
+  AntennaPropagationLossModel (const AntennaPropagationLossModel&);
+  /**
+   * \brief Copy constructor
+   *
+   * Defined and unimplemented to avoid misuse
+   * \returns
+   */
+  AntennaPropagationLossModel& operator= (const AntennaPropagationLossModel&);
+  virtual double DoCalcRxPower (double txPowerDbm,
+                                Ptr<MobilityModel> a,
+                                Ptr<MobilityModel> b) const;
+  virtual double GetGain (Ptr<MobilityModel> a,
+                          Ptr<MobilityModel> b) const;
+  virtual int64_t DoAssignStreams (int64_t stream);
 };
 
 } // namespace ns3

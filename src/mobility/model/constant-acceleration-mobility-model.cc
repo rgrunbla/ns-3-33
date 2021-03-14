@@ -49,6 +49,12 @@ ConstantAccelerationMobilityModel::DoGetVelocity (void) const
 }
 
 inline Vector
+ConstantAccelerationMobilityModel::DoGetAngularVelocity (void) const
+{
+  return Vector(0.0, 0.0, 0.0);
+}
+
+inline Vector
 ConstantAccelerationMobilityModel::DoGetPosition (void) const
 {
   double t = (Simulator::Now () - m_baseTime).GetSeconds ();
@@ -78,5 +84,16 @@ ConstantAccelerationMobilityModel::SetVelocityAndAcceleration (const Vector &vel
   NotifyCourseChange ();
 }
 
+Quaternion
+ConstantAccelerationMobilityModel::DoGetOrientation (void) const
+{
+  return m_orientation;
+}
+void
+ConstantAccelerationMobilityModel::DoSetOrientation (const Quaternion &orientation)
+{
+  m_orientation = orientation;
+  NotifyCourseChange ();
+}
 
 } // namespace ns3

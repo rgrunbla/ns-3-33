@@ -89,6 +89,22 @@ Vector2D::GetLength () const
 }
 
 double
+Dot(const Vector3D &a, const Vector3D &b)
+{
+  return a.x * b.x + a.y * b.y + a.z * b.z;
+}
+
+Vector3D
+Cross(const Vector3D &a, const Vector3D &b)
+{
+  return Vector3D(
+    a.y * b.z - a.z * b.y,
+    a.z * b.x - a.x * b.z,
+    a.x * b.y - a.y * b.x
+  );
+}
+
+double
 CalculateDistance (const Vector3D &a, const Vector3D &b)
 {
   NS_LOG_FUNCTION (a << b);
@@ -155,6 +171,11 @@ Vector3D
 operator - (const Vector3D &a, const Vector3D &b)
 {
   return Vector3D (a.x - b.x, a.y - b.y, a.z - b.z);
+}
+Vector3D
+operator * (const double s, const Vector3D &a)
+{
+  return Vector3D (s*a.x, s*a.y, s*a.z);
 }
 std::ostream &operator << (std::ostream &os, const Vector2D &vector)
 {

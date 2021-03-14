@@ -243,6 +243,7 @@ def build(bld):
         'model/callback.cc',
         'model/names.cc',
         'model/vector.cc',
+        'model/quaternion.cc',
         'model/fatal-impl.cc',
         'model/system-path.cc',
         'helper/random-variable-stream-helper.cc',
@@ -266,6 +267,7 @@ def build(bld):
             
     core_test = bld.create_ns3_module_test_library('core')
     core_test.source = [
+        'test/quaternion-test-suite.cc',
         'test/attribute-test-suite.cc',
         'test/attribute-container-test-suite.cc',
         'test/build-profile-test-suite.cc',
@@ -373,6 +375,7 @@ def build(bld):
         'model/abort.h',
         'model/names.h',
         'model/vector.h',
+        'model/quaternion.h',
         'model/default-deleter.h',
         'model/fatal-impl.h',
         'model/system-path.h',

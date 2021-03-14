@@ -66,6 +66,9 @@ public:
    */
   double GetLength () const;
 
+  friend double Dot(const Vector3D &a, const Vector3D &b);
+  friend Vector3D Cross(const Vector3D &a, const Vector3D &b);
+
   /**
    * \brief Calculate the Cartesian distance between two points.
    * \param [in] a One point
@@ -150,6 +153,14 @@ public:
    * \returns The vector sum of \pname{a} and \pname{b}.
    */
   friend Vector3D operator + (const Vector3D &a, const Vector3D &b);
+
+  /**
+   * Multiplication operator.
+   * \param [in] a lhs vector.
+   * \param [in] b rhs vector.
+   * \returns The vector sum of \pname{a} and \pname{b}.
+   */
+  friend Vector3D operator * (const double s, const Vector3D &a);
 
   /**
    * Subtraction operator.

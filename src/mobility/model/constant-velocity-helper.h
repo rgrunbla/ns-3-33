@@ -22,6 +22,7 @@
 
 #include "ns3/nstime.h"
 #include "ns3/vector.h"
+#include "ns3/quaternion.h"
 #include "ns3/box.h"
 
 namespace ns3 {
@@ -49,6 +50,15 @@ public:
    */
   ConstantVelocityHelper (const Vector &position,
                           const Vector &vel);
+    /** 
+   * Create object and set position, velocity and angular velocity
+   * \param position the position vector
+   * \param vel the velocity vector
+   * \param angularVel the angular velocity vector
+   */
+  ConstantVelocityHelper (const Vector &position,
+                          const Vector &vel,
+                          const Vector &angularVel);
 
   /**
    * Set position vector
@@ -70,6 +80,26 @@ public:
    * \param vel Velocity vector
    */
   void SetVelocity (const Vector &vel);
+  /**
+   * Set orientation quaternion
+   * \param orientation Orientation quaternion
+   */
+  void SetOrientation (const Quaternion &quaternion);
+  /**
+   * Get current quaternion vector
+   * \return Orientation quaternion
+   */
+  Quaternion GetCurrentOrientation (void) const;
+  /**
+   * Get angular velocity; if paused, will return a zero rotation quaternion
+   * \return Quaternion representing the angular velocity
+   */
+  Vector GetAngularVelocity (void) const;
+  /**
+   * Set new angular velocity vector
+   * \param vel Angular velocity vector
+   */
+  void SetAngularVelocity (const Vector &vel);
   /**
    * Pause mobility at current position
    */
@@ -96,7 +126,9 @@ public:
 private:
   mutable Time m_lastUpdate; //!< time of last update
   mutable Vector m_position; //!< state variable for current position
+  mutable Quaternion m_orientation; //!< state variable for current orientation
   Vector m_velocity; //!< state variable for velocity
+  Vector m_angularVelocity; //!< state variable for angular velocity
   bool m_paused;  //!< state variable for paused
 };
 
